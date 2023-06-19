@@ -5,6 +5,8 @@ import (
 	"machine"
 	"time"
 
+	"github.com/tinygo-org/gobadge/badge"
+	"github.com/tinygo-org/gobadge/pybadge"
 	"tinygo.org/x/drivers/lis3dh"
 
 	"tinygo.org/x/drivers/ws2812"
@@ -40,41 +42,17 @@ var snakeGame = Game{
 }
 
 func main() {
-	machine.SPI1.Configure(machine.SPIConfig{
-		SCK:       machine.SPI1_SCK_PIN,
-		SDO:       machine.SPI1_SDO_PIN,
-		SDI:       machine.SPI1_SDI_PIN,
-		Frequency: 8000000,
-	})
-	machine.I2C0.Configure(machine.I2CConfig{SCL: machine.SCL_PIN, SDA: machine.SDA_PIN})
-
-	accel = lis3dh.New(machine.I2C0)
-	accel.Address = lis3dh.Address0
-	accel.Configure()
-
-	display = st7735.New(machine.SPI1, machine.TFT_RST, machine.TFT_DC, machine.TFT_CS, machine.TFT_LITE)
-	display.Configure(st7735.Config{
-		Rotation: st7735.ROTATION_90,
-	})
-
-	buttons = shifter.NewButtons()
-	buttons.Configure()
-
-	neo := machine.NEOPIXELS
-	neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	leds = ws2812.New(neo)
-
-	bzrPin = machine.A0
-	bzrPin.Configure(machine.PinConfig{Mode: machine.PinOutput})
-
-	speaker := machine.SPEAKER_ENABLE
-	speaker.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	speaker.High()
+	device := pybadge.NewDevice()
+	display = *device.Display
+	buttons = *device.Buttons
+	leds = *device.LEDs
+	bzrPin = *device.Buzzer
+	accel = *device.Accel
 
 	for {
 		switch menu() {
 		case 0:
-			Badge()
+			badge.Run(&device)
 			break
 		case 1:
 			snakeGame.Start()
