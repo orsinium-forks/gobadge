@@ -24,6 +24,11 @@ type Screen interface {
 
 func Run(d *pybadge.Device) error {
 	screens := []Screen{
+		&ScreenBlinkyRainbow{
+			Device: d,
+			Line1:  "Hi, I'm Gram",
+			Line2:  "I do FE w/o JS",
+		},
 		ScreenName{Device: d, Name: "gram"},
 	}
 	for _, s := range screens {
