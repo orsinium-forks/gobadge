@@ -25,6 +25,12 @@ type Slide interface {
 
 func Run(d *pybadge.Device) error {
 	slides := []Slide{
+		&slides.Scroll{
+			Device: d,
+			Line1:  "Hi, I'm Gram",
+			Line2:  "Python, Go",
+			Line3:  "Elixir, Magic",
+		},
 		&slides.BlinkyRainbow{
 			Device: d,
 			Line1:  "Hi, I'm Gram",

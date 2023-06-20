@@ -17,11 +17,6 @@ type Name struct {
 }
 
 func (s Name) Run() error {
-	s.myNameIsRainbow()
-	return nil
-}
-
-func (s Name) myNameIsRainbow() {
 	s.myNameIs(s.Name)
 
 	rainbow := make([]color.RGBA, 256)
@@ -41,9 +36,10 @@ func (s Name) myNameIsRainbow() {
 		)
 		pressed, _ := s.Device.Buttons.Read8Input()
 		if pressed&machine.BUTTON_SELECT_MASK > 0 {
-			return
+			return nil
 		}
 	}
+	return nil
 }
 
 func (s Name) myNameIs(name string) {
