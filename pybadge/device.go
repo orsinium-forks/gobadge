@@ -59,3 +59,8 @@ func NewDevice() Device {
 		Speaker: &speaker,
 	}
 }
+
+func (d Device) ReadButtons() (Buttons, error) {
+	bs, err := d.Buttons.Read8Input()
+	return Buttons{bs}, err
+}

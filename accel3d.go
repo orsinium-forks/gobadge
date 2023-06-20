@@ -5,12 +5,13 @@ import (
 	"machine"
 	"time"
 
+	"github.com/tinygo-org/gobadge/pybadge"
 	"tinygo.org/x/tinydraw"
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/proggy"
 )
 
-func Accel3D() {
+func Accel3D(d *pybadge.Device) error {
 	white := color.RGBA{255, 255, 255, 255}
 	red := color.RGBA{255, 0, 0, 255}
 	green := color.RGBA{0, 255, 0, 255}
@@ -82,4 +83,5 @@ func Accel3D() {
 		time.Sleep(time.Millisecond * 100)
 		time.Sleep(50 * time.Millisecond)
 	}
+	return nil
 }

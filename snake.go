@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/tinygo-org/gobadge/pybadge"
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
 )
@@ -63,7 +64,7 @@ type Game struct {
 	status         uint8
 }
 
-func (g *Game) Start() {
+func (g *Game) Start(d *pybadge.Device) error {
 	g.status = START
 	scoreStr := []byte("SCORE: 123")
 	display.FillScreen(g.colors[BCK])
@@ -164,6 +165,7 @@ func (g *Game) Start() {
 			break
 		}
 	}
+	return nil
 }
 
 func (g *Game) collisionWithSnake(x, y int16) bool {

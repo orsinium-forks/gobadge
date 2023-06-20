@@ -5,11 +5,12 @@ import (
 	"machine"
 	"time"
 
+	"github.com/tinygo-org/gobadge/pybadge"
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
 )
 
-func Music() {
+func Music(d *pybadge.Device) error {
 	white := color.RGBA{255, 255, 255, 255}
 	display.FillScreen(white)
 
@@ -45,6 +46,7 @@ func Music() {
 			tone(523)
 		}
 	}
+	return nil
 }
 
 func tone(tone int) {

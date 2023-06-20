@@ -3,9 +3,9 @@ package main
 import (
 	"image/color"
 	"machine"
-	"time"
 
 	"github.com/tinygo-org/gobadge/badge"
+	"github.com/tinygo-org/gobadge/launcher"
 	"github.com/tinygo-org/gobadge/pybadge"
 	"tinygo.org/x/drivers/lis3dh"
 
@@ -49,38 +49,28 @@ func main() {
 	bzrPin = *device.Buzzer
 	accel = *device.Accel
 
-	for {
-		switch menu() {
-		case 0:
-			badge.Run(&device)
-			break
-		case 1:
-			snakeGame.Start()
-			break
-		case 2:
-			Leds()
-			break
-		case 3:
-			Accel3D()
-			break
-		case 4:
-			Music()
-			break
-		default:
-			break
-		}
-		println("LOOP")
-		time.Sleep(1 * time.Second)
-	}
-}
+	launcher.Tiny{}.Run(
+		&device,
+		launcher.App{
+			Name: "Badge",
+			Run:  badge.Run,
+		},
+		launcher.App{
+			Name: "Snake",
+			Run:  snakeGame.Start,
+		},
+		launcher.App{
+			Name: "Rainbow LEDs",
+			Run:  Leds,
+		},
+		launcher.App{
+			Name: "Accelerometer",
+			Run:  Accel3D,
+		},
+		launcher.App{
+			Name: "Music",
+			Run:  Music,
+		},
+	)
 
-func getRainbowRGB(i uint8) color.RGBA {
-	if i < 85 {
-		return color.RGBA{i * 3, 255 - i*3, 0, 255}
-	} else if i < 170 {
-		i -= 85
-		return color.RGBA{255 - i*3, 0, i * 3, 255}
-	}
-	i -= 170
-	return color.RGBA{0, i * 3, 255 - i*3, 255}
 }
