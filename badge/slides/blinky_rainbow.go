@@ -1,4 +1,4 @@
-package badge
+package slides
 
 import (
 	"machine"
@@ -8,13 +8,13 @@ import (
 	"tinygo.org/x/tinyfont/freesans"
 )
 
-type ScreenBlinkyRainbow struct {
+type BlinkyRainbow struct {
 	Device *pybadge.Device
 	Line1  string
 	Line2  string
 }
 
-func (s *ScreenBlinkyRainbow) Run() error {
+func (s *BlinkyRainbow) Run() error {
 	s.Device.Display.FillScreen(white)
 
 	// calculate the width of the text so we could center them later

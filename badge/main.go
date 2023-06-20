@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image/color"
 
+	"github.com/tinygo-org/gobadge/badge/slides"
 	"github.com/tinygo-org/gobadge/pybadge"
 )
 
@@ -18,20 +19,20 @@ var (
 	red   = color.RGBA{255, 0, 0, 255}
 )
 
-type Screen interface {
+type Slide interface {
 	Run() error
 }
 
 func Run(d *pybadge.Device) error {
-	screens := []Screen{
-		&ScreenBlinkyRainbow{
+	slides := []Slide{
+		&slides.BlinkyRainbow{
 			Device: d,
 			Line1:  "Hi, I'm Gram",
 			Line2:  "I do FE w/o JS",
 		},
-		ScreenName{Device: d, Name: "gram"},
+		slides.Name{Device: d, Name: "gram"},
 	}
-	for _, s := range screens {
+	for _, s := range slides {
 		err := s.Run()
 		if err != nil {
 			return fmt.Errorf("run screen: %v", err)

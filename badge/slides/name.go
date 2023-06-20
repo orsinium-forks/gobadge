@@ -1,4 +1,4 @@
-package badge
+package slides
 
 import (
 	"image/color"
@@ -11,17 +11,17 @@ import (
 	"tinygo.org/x/tinyfont/gophers"
 )
 
-type ScreenName struct {
+type Name struct {
 	Device *pybadge.Device
 	Name   string
 }
 
-func (s ScreenName) Run() error {
+func (s Name) Run() error {
 	s.myNameIsRainbow()
 	return nil
 }
 
-func (s ScreenName) myNameIsRainbow() {
+func (s Name) myNameIsRainbow() {
 	s.myNameIs(s.Name)
 
 	rainbow := make([]color.RGBA, 256)
@@ -46,7 +46,7 @@ func (s ScreenName) myNameIsRainbow() {
 	}
 }
 
-func (s ScreenName) myNameIs(name string) {
+func (s Name) myNameIs(name string) {
 	s.Device.Display.FillScreen(white)
 
 	var r int16 = 8
