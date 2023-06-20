@@ -9,8 +9,8 @@ import (
 )
 
 func Leds(d *pybadge.Device) error {
-	display.EnableBacklight(false)
-	display.FillScreen(color.RGBA{0, 0, 0, 255})
+	d.Display.EnableBacklight(false)
+	d.Display.FillScreen(color.RGBA{0, 0, 0, 255})
 	ledColors := make([]color.RGBA, 5)
 	var i uint8
 	for {
@@ -19,9 +19,9 @@ func Leds(d *pybadge.Device) error {
 		ledColors[2] = getRainbowRGB(i + 20)
 		ledColors[3] = getRainbowRGB(i + 30)
 		ledColors[4] = getRainbowRGB(i + 40)
-		leds.WriteColors(ledColors)
+		d.LEDs.WriteColors(ledColors)
 
-		pressed, _ := buttons.Read8Input()
+		pressed, _ := d.Buttons.Read8Input()
 		if pressed&machine.BUTTON_SELECT_MASK > 0 {
 			break
 		}
@@ -35,17 +35,17 @@ func Leds(d *pybadge.Device) error {
 	ledColors[2] = color.RGBA{0, 0, 0, 255}
 	ledColors[3] = color.RGBA{0, 0, 0, 255}
 	ledColors[4] = color.RGBA{0, 0, 0, 255}
-	leds.WriteColors(ledColors)
+	d.LEDs.WriteColors(ledColors)
 	time.Sleep(50 * time.Millisecond)
 	ledColors[0] = color.RGBA{0, 0, 0, 255}
 	ledColors[1] = color.RGBA{0, 0, 0, 255}
 	ledColors[2] = color.RGBA{0, 0, 0, 255}
 	ledColors[3] = color.RGBA{0, 0, 0, 255}
 	ledColors[4] = color.RGBA{0, 0, 0, 255}
-	leds.WriteColors(ledColors)
+	d.LEDs.WriteColors(ledColors)
 	time.Sleep(50 * time.Millisecond)
 
-	display.EnableBacklight(true)
+	d.Display.EnableBacklight(true)
 	return nil
 }
 

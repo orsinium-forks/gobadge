@@ -18,27 +18,27 @@ func Accel3D(d *pybadge.Device) error {
 	blue := color.RGBA{0, 0, 255, 255}
 	black := color.RGBA{0, 0, 0, 255}
 
-	display.FillScreen(white)
-	tinydraw.Rectangle(&display, 26, 30, 132, 7, black)
-	tinydraw.Rectangle(&display, 26, 40, 132, 7, black)
-	tinydraw.Rectangle(&display, 26, 50, 132, 7, black)
+	d.Display.FillScreen(white)
+	tinydraw.Rectangle(d.Display, 26, 30, 132, 7, black)
+	tinydraw.Rectangle(d.Display, 26, 40, 132, 7, black)
+	tinydraw.Rectangle(d.Display, 26, 50, 132, 7, black)
 
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 10, 80, "Move the PyBadge to see", black)
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 14, 90, "the accelerometer in", black)
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 60, 100, "action.", black)
+	tinyfont.WriteLine(d.Display, &proggy.TinySZ8pt7b, 10, 80, "Move the PyBadge to see", black)
+	tinyfont.WriteLine(d.Display, &proggy.TinySZ8pt7b, 14, 90, "the accelerometer in", black)
+	tinyfont.WriteLine(d.Display, &proggy.TinySZ8pt7b, 60, 100, "action.", black)
 
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 8, 36, "X:", black)
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 8, 46, "Y:", black)
-	tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 8, 56, "Z:", black)
+	tinyfont.WriteLine(d.Display, &proggy.TinySZ8pt7b, 8, 36, "X:", black)
+	tinyfont.WriteLine(d.Display, &proggy.TinySZ8pt7b, 8, 46, "Y:", black)
+	tinyfont.WriteLine(d.Display, &proggy.TinySZ8pt7b, 8, 56, "Z:", black)
 
-	x, y, z := accel.ReadRawAcceleration()
+	x, y, z := d.Accel.ReadRawAcceleration()
 	for {
-		pressed, _ := buttons.Read8Input()
+		pressed, _ := d.Buttons.Read8Input()
 		if pressed&machine.BUTTON_SELECT_MASK > 0 {
 			break
 		}
 
-		x, y, z = accel.ReadRawAcceleration()
+		x, y, z = d.Accel.ReadRawAcceleration()
 		x = x / 500
 		y = y / 500
 		z = z / 500
@@ -60,23 +60,23 @@ func Accel3D(d *pybadge.Device) error {
 		if z < -64 {
 			z = -64
 		}
-		display.FillRectangle(28, 32, 128, 2, white)
-		display.FillRectangle(28, 42, 128, 2, white)
-		display.FillRectangle(28, 52, 128, 2, white)
+		d.Display.FillRectangle(28, 32, 128, 2, white)
+		d.Display.FillRectangle(28, 42, 128, 2, white)
+		d.Display.FillRectangle(28, 52, 128, 2, white)
 		if x < 0 {
-			display.FillRectangle(92+x, 32, -x, 2, red)
+			d.Display.FillRectangle(92+x, 32, -x, 2, red)
 		} else {
-			display.FillRectangle(92, 32, x, 2, red)
+			d.Display.FillRectangle(92, 32, x, 2, red)
 		}
 		if y < 0 {
-			display.FillRectangle(92+y, 42, -y, 2, green)
+			d.Display.FillRectangle(92+y, 42, -y, 2, green)
 		} else {
-			display.FillRectangle(92, 42, y, 2, green)
+			d.Display.FillRectangle(92, 42, y, 2, green)
 		}
 		if z < 0 {
-			display.FillRectangle(92+z, 52, -z, 2, blue)
+			d.Display.FillRectangle(92+z, 52, -z, 2, blue)
 		} else {
-			display.FillRectangle(92, 52, z, 2, blue)
+			d.Display.FillRectangle(92, 52, z, 2, blue)
 		}
 
 		println("X:", x, "Y:", y, "Z:", z)
